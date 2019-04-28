@@ -14,7 +14,7 @@
 #include <linux/kernel.h>	 /* Needed for KERN_INFO */ 
 #include <linux/init.h>	 /* Needed for the macros */ 
 
-///< The license type -- this affects runtime behavior 
+
 MODULE_LICENSE("GPL"); 
 
 ///< The author -- visible when you use modinfo 
