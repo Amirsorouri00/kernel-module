@@ -12,9 +12,9 @@
 
 // #define _GNU_SOURCE             /* Get definition of MSG_EXCEPT */
 /* Kernel Programming */
-#define MODULE
-#define LINUX
-#define __KERNEL__
+// #define MODULE
+// #define LINUX
+// #define __KERNEL__
 #include <linux/module.h>   // init_module, cleanup_module //
 #include <linux/kernel.h>   // KERN_INFO //
 #include <linux/types.h>    // uint64_t //
