@@ -1,7 +1,7 @@
 obj-m+=server.o
-CARGS = /home/amirsorouri00/Desktop/linux-source-4.15.0/linux-source-4.15.0
-KDIR := -I /lib/modules/$(shell uname -r)/build
+KDIR = /home/amirsorouri00/Desktop/linux-source-4.15.0/linux-source-4.15.0
+CARGS := -I /lib/modules/$(shell uname -r)/build
 all:
-	make $(KDIR) -C $(CARGS) M=$(PWD) modules
+	make $(CARGS) -C $(KDIR) M=$(PWD) modules
 clean:
-	make $(CARGS) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	make $(CARGS) -C $(KDIR) M=$(PWD) clean
