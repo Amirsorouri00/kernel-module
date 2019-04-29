@@ -11,19 +11,16 @@
 */
 
 // #define _GNU_SOURCE             /* Get definition of MSG_EXCEPT */
+/* Kernel Programming */
+#define MODULE
+#define LINUX
+#define __KERNEL__
 #include <linux/module.h>   // init_module, cleanup_module //
 #include <linux/kernel.h>   // KERN_INFO //
 #include <linux/types.h>    // uint64_t //
-#include <../../../../../usr/src/linux-headers-4.15.0-47-generic/include/linux/kthread.h>  // kthread_run, kthread_stop //
-// #include <linux/linux-generic>  // kthread_run, kthread_stop //
-// #include <linux/linux-generic/linux/delay.h> 
-// #include <linux/linux-generic/linux/syscalls.h> 
-// #include "../../../../../usr/src/linux-headers-4.15.0-47-generic/include/linux/delay.h"    // msleep_interruptible //
-#include "syscalls.h"
-#include "delay.h"
-// #include "kthread.h"
-
-// #include "../../../../../usr/src/linux-headers-4.15.0-47-generic/include/linux/syscalls.h" // sys_shmget //
+#include <linux/syscalls.h> // sys_shmget //
+#include <linux/kthread.h>  // kthread_run, kthread_stop //
+#include <linux/delay.h>    // msleep_interruptible //
 
 // #include "shm_bmk.h"
 
