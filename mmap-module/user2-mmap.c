@@ -6,12 +6,9 @@
 #include <stdint.h> /* uintmax_t */
 #include <string.h>
 #include <sys/mman.h>
-#include <time.h>
 #include <unistd.h> /* sysconf */
 
 #include "common.h" /* virt_to_phys_user */
-
-#define TRIALS		1000000000
 
 enum { BUFFER_SIZE = 4 };
 
@@ -51,6 +48,17 @@ int main(int argc, char **argv)
 	}
 	assert(address1 != address2);
 
+    /* Read and modify memory. */
+	puts("access 1");
+	assert(!strcmp(address1, "asdf"));
+	/* vm_fault */
+	puts("access 2");
+	assert(!strcmp(address2, "asdf"));
+	/* vm_fault */
+	strcpy(address1, "qwer");
+	/* Also modified. So both virtual addresses point to the same physical address. */
+	assert(!strcmp(address2, "qwer"));
+
 	/* Check that the physical addresses are the same.
 	 * They are, but TODO why virt_to_phys on kernel gives a different value? */
 	assert(!virt_to_phys_user(&paddr, getpid(), (uintptr_t)address1));
@@ -58,19 +66,14 @@ int main(int argc, char **argv)
 	assert(!virt_to_phys_user(&paddr, getpid(), (uintptr_t)address2));
 	printf("paddr2 = 0x%jx\n", (uintmax_t)paddr);
 
-	int cnt = 0;
-	clock_t start_t, end_t, total_t;
-	start_t = clock();
-	printf("Starting of the program, start_t = %ld\n", start_t);
-	
-	while(cnt++<=TRIALS){
-		strcpy(address1, "qwer");
-	}
-	end_t = clock();
-	printf("End of the big loop, end_t = %ld\n", end_t);
-	
-	total_t = ((double)(end_t - start_t)) / CLOCKS_PER_SEC;
-	printf("Time: %f\n", (double)total_t);
+    /* Check that modifications made from userland are also visible from the kernel. */
+	read(fd, buf, BUFFER_SIZE);
+	assert(!memcmp(buf, "qwer", BUFFER_SIZE));
+
+	/* Modify the data from the kernel, and check that the change is visible from userland. */
+	write(fd, "zxcv", 4);
+	assert(!strcmp(address1, "zxcv"));
+	assert(!strcmp(address2, "zxcv"));
 
     /* Cleanup. */
     puts("munmap 1");
