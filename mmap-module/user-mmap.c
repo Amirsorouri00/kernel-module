@@ -17,7 +17,7 @@ enum { BUFFER_SIZE = 4 };
 
 int main(int argc, char **argv)
 {
-	int fd;
+	int fd, fd2;
 	long page_size;
 	char *address1, *address2;
 	char buf[BUFFER_SIZE];
@@ -30,6 +30,7 @@ int main(int argc, char **argv)
 	page_size = sysconf(_SC_PAGE_SIZE);
 	printf("open pathname = %s\n", argv[1]);
 	fd = open(argv[1], O_RDWR | O_SYNC);
+	fd2 = open("../../random-files/20m-files/file.txt", O_RDONLY);
 	if (fd < 0) {
 		perror("open");
 		assert(0);
@@ -61,10 +62,10 @@ int main(int argc, char **argv)
 	int cnt = 0;
 	clock_t start_t, end_t, total_t;
 	start_t = clock();
-	printf("Starting of the program, start_t = %ld\n", start_t);
 	
-	while(cnt++<=TRIALS){
-		strcpy(address1, "qwer");
+	
+	while(0 != read(fd2, buf, BUFFER_SIZE)){
+		strcpy(address1, buf);
 	}
 	end_t = clock();
 	printf("End of the big loop, end_t = %ld\n", end_t);
