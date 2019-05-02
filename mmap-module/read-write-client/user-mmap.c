@@ -9,7 +9,7 @@
 #include <time.h>
 #include <unistd.h> /* sysconf */
 
-#include "common.h" /* virt_to_phys_user */
+#include "../common.h" /* virt_to_phys_user */
 
 #define TRIALS		1000000000
 
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 	page_size = sysconf(_SC_PAGE_SIZE);
 	printf("open pathname = %s\n", argv[1]);
 	fd = open(argv[1], O_RDWR | O_SYNC);
-	int data_to_write_fd = open("../../random-files/20m-files/file.txt", O_RDONLY);
+	int data_to_write_fd = open("../../../random-files/20m-files/file.txt", O_RDONLY);
 	if (fd < 0 || data_to_write_fd < 0) {
 		perror("open");
 		assert(0);
@@ -53,11 +53,11 @@ int main(int argc, char **argv)
 
 	int cnt = 0;
 	clock_t start_t, end_t, total_t;
-	printf("Starting of the program, start_t = %ld\n", start_t);
 	start_t = clock();
+	printf("Starting of the program, start_t = %ld\n", start_t);
 
 	while(0 != read(data_to_write_fd, buf, BUFFER_SIZE))
-		strcpy(address1, buf);
+		write(fd, buf, BUFFER_SIZE);
 
 	end_t = clock();
 	printf("End of the big loop, end_t = %ld\n", end_t);
