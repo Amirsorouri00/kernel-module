@@ -13,7 +13,7 @@
 
 #define TRIALS		1000000000
 
-enum { BUFFER_SIZE = 4 };
+enum { BUFFER_SIZE = 1000 };
 
 int main(int argc, char **argv)
 {
@@ -56,8 +56,12 @@ int main(int argc, char **argv)
 	start_t = clock();
 	printf("Starting of the program, start_t = %ld\n", start_t);
 
-	while(0 != read(data_to_write_fd, buf, BUFFER_SIZE))
-		write(fd, buf, BUFFER_SIZE);
+	while(0 != read(data_to_write_fd, buf, BUFFER_SIZE)){
+		// strcpy(address1, buf);
+		cnt+=write(fd, buf, BUFFER_SIZE);
+        printf("cnt: %d\n", (int)cnt);
+
+	}
 
 	end_t = clock();
 	printf("End of the big loop, end_t = %ld\n", end_t);

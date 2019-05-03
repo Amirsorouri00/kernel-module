@@ -59,11 +59,9 @@ int main(int argc, char **argv)
     if (pipe(pbuf) < 0) 
         exit(1); 
 	start_t = clock();
-	printf("Starting of the program, start_t = %ld\n", start_t);
-    // printf("1111111111111111\n");
-    // int bt = 0;
 	while(1) {
         // printf("1\n");
+        // size_t bt = splice(data_to_write_fd, NULL, buf, NULL, BUFFER_SIZE, SPLICE_F_MOVE);
         size_t bt = splice(data_to_write_fd, NULL, pbuf[1], NULL, BUFFER_SIZE, SPLICE_F_MOVE);
         // printf("2\n");
         if (bt == 0) {
@@ -71,13 +69,14 @@ int main(int argc, char **argv)
         }
         // printf("bt: %d\n", (int)bt);
         // printf("3\n");
+        // strcpy(address1, buf);
 		cnt += splice(pbuf[0], NULL, fd, NULL, BUFFER_SIZE, SPLICE_F_MOVE);
-        // printf("cnt: %d\n", (int)cnt);
+        printf("cnt: %d\n", (int)cnt);
     }
-	end_t = clock();
-	printf("End of the big loop, end_t = %ld\n", end_t);
-	
+	end_t = clock();	
 	total_t = ((double)(end_t - start_t)) / CLOCKS_PER_SEC;
+    printf("Starting of the program, start_t = %ld\n", start_t);
+	printf("End of the big loop, end_t = %ld\n", end_t);
 	printf("Time: %f\n", (double)total_t);
     // printf("number of bytes copied: %d\n", cnt);
 
