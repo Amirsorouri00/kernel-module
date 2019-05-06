@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 	page_size = sysconf(_SC_PAGE_SIZE);
 	printf("open pathname = %s\n", argv[1]);
 	fd = open(argv[1], O_RDWR | O_SYNC);
-	int data_to_write_fd = open("../../../random-files/2m-files/file.txt", O_RDONLY);
+	int data_to_write_fd = open("../../../random-files/2k-files/file.txt", O_RDONLY);
 	if (fd < 0 || data_to_write_fd < 0) {
 		perror("open");
 		assert(0);
@@ -54,11 +54,11 @@ int main(int argc, char **argv)
 	printf("paddr1 = 0x%jx\n", (uintmax_t)paddr);
 
 	size_t cnt = 0;
-	clock_t start_t, end_t, total_t;
+	// clock_t start_t, end_t, total_t;
     int pbuf[2];
     if (pipe(pbuf) < 0) 
         exit(1); 
-	start_t = clock();
+	// start_t = clock();
 	while(1) {
         // printf("1\n");
         // size_t bt = splice(data_to_write_fd, NULL, buf, NULL, BUFFER_SIZE, SPLICE_F_MOVE);
@@ -67,17 +67,14 @@ int main(int argc, char **argv)
         if (bt == 0) {
             break;
         }
-        // printf("bt: %d\n", (int)bt);
-        // printf("3\n");
-        // strcpy(address1, buf);
 		cnt += splice(pbuf[0], NULL, fd, NULL, BUFFER_SIZE, SPLICE_F_MOVE);
-        printf("cnt: %d\n", (int)cnt);
+        // printf("cnt: %d\n", (int)cnt);
     }
-	end_t = clock();	
-	total_t = ((double)(end_t - start_t)) / CLOCKS_PER_SEC;
-    printf("Starting of the program, start_t = %ld\n", start_t);
-	printf("End of the big loop, end_t = %ld\n", end_t);
-	printf("Time: %f\n", (double)total_t);
+	// end_t = clock();	
+	// total_t = ((double)(end_t - start_t)) / CLOCKS_PER_SEC;
+    // printf("Starting of the program, start_t = %ld\n", start_t);
+	// printf("End of the big loop, end_t = %ld\n", end_t);
+	// printf("Time: %f\n", (double)total_t);
     // printf("number of bytes copied: %d\n", cnt);
 
     /* Cleanup. */

@@ -50,6 +50,7 @@ int main(int argc, char **argv)
 
     /* Read and modify memory. */
 	puts("access 1");
+	puts(address1);
 	assert(!strcmp(address1, "asdf"));
 	/* vm_fault */
 	puts("access 2");
