@@ -14,7 +14,11 @@
         $ modprobe mmap
 
 ## Client
+        $ cc test-user-mmap.c -o test-user-mmap.out
+        $ ./test-user-mmap.out mmapfile.txt
+        
+## Different methods
+        $ cd {into *-client where * could be in (read-write, splice)}
         $ cc user-mmap.c -o user-mmap.out
         $ ./user-mmap.out mmapfile.txt
-        
 done:))
